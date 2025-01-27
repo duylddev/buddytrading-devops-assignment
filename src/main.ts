@@ -6,10 +6,7 @@ import { each, isEmpty } from 'lodash'
 import { Exchange } from './type/exchange.type'
 import { BinancePublisher } from './publisher/binance'
 import { BybitPublisher } from './publisher/bybit'
-import rawConfig from '../config.json'
-import { Config } from './type/config.type'
-
-const config = rawConfig as Config
+import config from './config'
 
 const wss = new WebSocketServer({ port: 3000 })
 
