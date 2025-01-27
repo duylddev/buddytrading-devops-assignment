@@ -1,4 +1,7 @@
 import { Config } from './type/config.type'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 const args = process.argv.slice(2)
 const configArg = args.find((arg) => arg.startsWith('--config='))

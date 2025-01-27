@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.app.name }}-config
+data:
+  port: {{ .Values.app.port }}
+  config.json: |
+    {{- .Files.Get "config/config.prod.json" | nindent 4 }} 

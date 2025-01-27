@@ -1,0 +1,57 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.app.name }}
+  labels:
+    app: {{ .Values.app.name }}
+  annotations:
+    keel.sh/policy: minor 
+    keel.sh/trigger: poll
+spec:
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 1
+      maxSurge: 1
+  replicas: {{ .Values.app.replicas }}
+  selector:
+    matchLabels:
+      app: {{ .Values.app.name }}
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.app.name }}
+    spec:
+      imagePullSecrets:
+        - name: ghcr-registry-secret
+      containers:
+        - name: {{ .Values.app.name }}
+          image: "{{ .Values.app.image }}:{{ .Values.app.tag }}"
+          command: ["node", "dist/main.js", "--config=/app/config/config.json"]
+          env:
+            - name: PORT
+              value: {{ .Values.app.port }}
+          readinessProbe:
+            httpGet:
+              path: /readz
+              port: {{ .Values.app.port }}
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /livez
+              port: {{ .Values.app.port }}
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          ports:
+            - containerPort: {{ .Values.app.port }}
+              protocol: TCP
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: config-volume
+              mountPath: /app/config
+      volumes:
+        - name: config-volume
+          configMap:
+            name: {{ .Values.app.name }}-config 
