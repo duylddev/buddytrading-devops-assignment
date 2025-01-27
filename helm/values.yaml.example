@@ -1,0 +1,24 @@
+# Application configuration
+app:
+  name: websocket-server
+  image: ghcr.io/duylddev/buddytrading-devops-assignment
+  tag: latest
+  replicas: 3
+  port: 3000
+dockerConfigJson: |
+  {
+    "auths": {
+      "ghcr.io": {
+        "auth": "xxx"
+      }
+    }
+  }
+  
+# Resource limits
+resources:
+  requests:
+    cpu: 100m
+    memory: 128Mi
+  limits:
+    cpu: 200m
+    memory: 256Mi

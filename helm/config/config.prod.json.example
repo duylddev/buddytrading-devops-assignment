@@ -1,0 +1,6 @@
+{
+  "exchanges": {
+    "binance": ["BTC/USDT", "ETH/USDT"],
+    "bybit": ["BTC/USDT", "ETH/USDT"]
+  }
+}

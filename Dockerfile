@@ -15,6 +15,5 @@ RUN npm install -g pnpm
 COPY package.json pnpm-lock.yaml ./
 RUN pnpm install --production
 COPY --from=dev /app/dist ./dist
-COPY --from=dev /app/config.json ./
 
-CMD ["node", "dist/main.js", "--config=/app/config.json"]
+CMD ["node", "dist/main.js"]
