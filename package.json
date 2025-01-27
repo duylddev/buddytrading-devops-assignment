@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon src/main.ts --config=../config.json",
+    "dev": "nodemon src/main.ts --config=../config.dev.json",
     "build": "npx tsc",
     "test": "jest"
   },
@@ -13,6 +13,7 @@
   "license": "ISC",
   "devDependencies": {
     "@jest/globals": "^29.7.0",
+    "@types/dotenv": "^8.2.3",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.14",
     "@types/node": "^22.10.10",
@@ -24,7 +25,9 @@
     "typescript": "^5.7.3"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
     "lodash": "^4.17.21",
+    "prom-client": "^15.1.3",
     "ws": "^8.18.0",
     "zod": "^3.24.1"
   }

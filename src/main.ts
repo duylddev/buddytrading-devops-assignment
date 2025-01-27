@@ -7,8 +7,45 @@ import { Exchange } from './type/exchange.type'
 import { BinancePublisher } from './publisher/binance'
 import { BybitPublisher } from './publisher/bybit'
 import config from './config'
+import http from 'http'
+import { register, Gauge, Counter, Histogram } from 'prom-client'
 
-const wss = new WebSocketServer({ port: 3000 })
+new Gauge({
+  name: 'number_of_clients',
+  help: 'Total number of clients connected to the websocket server',
+  collect() {
+    this.set(wss.clients.size)
+  },
+})
+
+export const counter = new Counter({
+  name: 'number_of_errors',
+  help: 'Total number of errors',
+})
+
+export const histogram = new Histogram({
+  name: 'latency',
+  help: 'Latency of the websocket server',
+})
+
+const server = http.createServer(async (req, res) => {
+  if (req.url === '/metrics') {
+    res.writeHead(200, { 'Content-Type': register.contentType })
+    res.end(await register.metrics())
+    return
+  }
+
+  if (req.url === '/livez' || req.url === '/readz') {
+    res.writeHead(200, { 'Content-Type': 'text/json' })
+    res.end(JSON.stringify({ number_of_clients: wss.clients.size }))
+    return
+  }
+
+  res.writeHead(404, { 'Content-Type': 'text/json' })
+  res.end(JSON.stringify({ status: 'not found' }))
+})
+
+const wss = new WebSocketServer({ server })
 
 wss.on('connection', (ws, req) => {
   const { query } = parse(req.url!, true)
@@ -42,6 +79,8 @@ wss.on('connection', (ws, req) => {
     return ws.close()
   }
 
+  ws.on('error', () => counter.inc())
+
   startSubscription(ws, data.exchange as Exchange, data.pair)
 })
 
@@ -53,4 +92,6 @@ function startSubscription(ws: WebSocket, exchange: Exchange, pair: string) {
   ws.on('close', () => publisher.close())
 }
 
-console.log('Websocket server is running on port 3000')
+server.listen(process.env.PORT, () => {
+  console.log('Both websocket and http server is running on port ' + process.env.PORT)
+})
