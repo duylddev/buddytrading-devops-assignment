@@ -3,11 +3,11 @@ import { parse } from 'url'
 import { z } from 'zod'
 import { sendError, sendJSON } from './util'
 import { each, isEmpty } from 'lodash'
-import { Exchange } from '../type/exchange.type'
+import { Exchange } from './type/exchange.type'
 import { BinancePublisher } from './publisher/binance'
 import { BybitPublisher } from './publisher/bybit'
 import rawConfig from '../config.json'
-import { Config } from '../type/config.type'
+import { Config } from './type/config.type'
 
 const config = rawConfig as Config
 

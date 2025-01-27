@@ -1,5 +1,5 @@
 import { Publisher } from './publisher'
-import { BinanceTicker, Exchange } from '../../type/exchange.type'
+import { BinanceTicker, Exchange } from '../type/exchange.type'
 import { toBinancePair } from '../util'
 
 export class BinancePublisher extends Publisher {

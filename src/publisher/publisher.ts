@@ -1,6 +1,6 @@
 import EventEmitter from 'events'
 import WebSocket from 'ws'
-import { BinanceTicker, BybitTicker, Exchange } from '../../type/exchange.type'
+import { BinanceTicker, BybitTicker, Exchange } from '../type/exchange.type'
 
 export abstract class Publisher extends EventEmitter {
   protected ws: WebSocket | null = null

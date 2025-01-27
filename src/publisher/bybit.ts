@@ -1,5 +1,5 @@
 import { Publisher } from './publisher'
-import { BybitTicker, Exchange } from '../../type/exchange.type'
+import { BybitTicker, Exchange } from '../type/exchange.type'
 import { toBybitPair } from '../util'
 
 export class BybitPublisher extends Publisher {
