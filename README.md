@@ -1,7 +1,5 @@
 # BuddyTrading WebSocket Server
 
-View the [platform recommendation](doc/README.md) here.
-
 ## Development usage
 
 ### Requirements

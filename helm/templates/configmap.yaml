@@ -3,6 +3,6 @@ kind: ConfigMap
 metadata:
   name: {{ .Values.app.name }}-config
 data:
-  port: {{ .Values.app.port }}
+  port: {{ .Values.app.port | quote }}
   config.json: |
     {{- .Files.Get "config/config.prod.json" | nindent 4 }} 

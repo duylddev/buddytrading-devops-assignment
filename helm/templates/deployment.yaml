@@ -30,7 +30,7 @@ spec:
           command: ["node", "dist/main.js", "--config=/app/config/config.json"]
           env:
             - name: PORT
-              value: {{ .Values.app.port }}
+              value: {{ .Values.app.port | quote }}
           readinessProbe:
             httpGet:
               path: /readz
